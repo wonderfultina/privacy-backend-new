@@ -1,0 +1,7 @@
+# Project exclude paths
+/common/common_util/target/
+/common/service_util/target/
+/models/target/
+/service/service_project/target/
+/service/service_resources/target/
+/service/service_user/target/
