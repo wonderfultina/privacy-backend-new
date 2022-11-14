@@ -14,6 +14,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class ServicePrivacyApplication {
     public static void main(String[] args){
         SpringApplication.run(ServicePrivacyApplication.class, args);
-
     }
 }
