@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableDiscoveryClient
 public class ServicePrivacyApplication {
     public static void main(String[] args){
+        //启动主程序
         SpringApplication.run(ServicePrivacyApplication.class, args);
     }
 }
