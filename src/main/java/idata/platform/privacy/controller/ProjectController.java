@@ -1,6 +1,7 @@
 package idata.platform.privacy.controller;
 
 import idata.platform.privacy.common.Result;
+import idata.platform.privacy.common.util.FileUtils;
 import idata.platform.privacy.models.Res.*;
 import idata.platform.privacy.models.project.ProcessFlow;
 import idata.platform.privacy.service.ProjectService;
@@ -146,8 +147,11 @@ public class ProjectController {
     //日志回调函数
     @PostMapping("/transferLog")
     public Result transferTrainLog(HttpServletRequest request){
-        System.out.println(request.toString());
         System.out.println(request.getParameter("msg"));
+        String msg = request.getParameter("msg");
+        FileUtils utils = new FileUtils();
+        //从msg中获取projectId、flowId、flowRecordId
+        utils.saveJsonData(msg, "");
         return Result.ok(null);
     }
 

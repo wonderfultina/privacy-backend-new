@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="service_resource" />
+        <module name="privacy-backend-new" />
         <module name="privacy-backend2" />
       </profile>
     </annotationProcessing>
@@ -28,6 +29,7 @@
       <module name="common_util" options="-parameters" />
       <module name="manage" options="-parameters" />
       <module name="models" options="-parameters" />
+      <module name="privacy-backend-new" options="-parameters" />
       <module name="privacy-backend2" options="-parameters" />
       <module name="service_project" options="-parameters" />
       <module name="service_resources" options="-parameters" />
