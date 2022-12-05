@@ -1,9 +1,6 @@
 package idata.platform.privacy.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import idata.platform.privacy.common.Result;
-import idata.platform.privacy.models.resource.Resource;
-import idata.platform.privacy.models.vo.resource.ResourceQueryVo;
 import idata.platform.privacy.models.vo.user.*;
 import idata.platform.privacy.service.UserInfoService;
 import io.swagger.annotations.Api;
@@ -26,11 +23,9 @@ public class UserController{
     //用户手机号登录
     @PostMapping("/login")
     public Result login(@RequestBody LoginVo loginVo){
-
         try{
             Map<String, Object> map = userInfoService.loginUser(loginVo);
             return Result.ok(map);
-
         }catch (PrivacyException p){
             return Result.build(p.getCode(), p.getMessage());
         }catch (Exception e){
@@ -50,8 +45,15 @@ public class UserController{
 
     @PostMapping("/register")
     public Result registerUser(@RequestBody RegisterVo registerVo){
-        Map<String,Object> map = userInfoService.registerUser(registerVo);
-        return Result.ok(map);
+        try{
+            Map<String,Object> map = userInfoService.registerUser(registerVo);
+            return Result.ok(map);
+        }catch (PrivacyException p){
+            return Result.build(p.getCode(), p.getMessage());
+        }catch (Exception e){
+            return Result.build(500, "注册失败");
+        }
+
     }
 
     //查找公司
@@ -70,15 +72,19 @@ public class UserController{
 
     @PostMapping("/addConfigureInfo")
     public Result addConfigureInfo(@RequestBody ConfigureInfoVo configureInfoVo){
-        String companyId = userInfoService.addConfigureInfo(configureInfoVo);
-        return Result.ok(companyId);
+        try {
+            String companyId = userInfoService.addConfigureInfo(configureInfoVo);
+            return Result.ok(companyId);
+        }catch (PrivacyException p){
+            return Result.build(p.getCode(), p.getMessage());
+        }catch (Exception e){
+            return Result.build(500, "配置ip");
+        }
     }
 
     //获取公司的状态信息
     @PostMapping("/getCompanyStatus")
     public Result getCompanyStatus(@RequestBody List<CompanyStatus> federatedStateVo){
-        System.out.println("获取公司的状态信息");
-        System.out.println(federatedStateVo);
         List<CompanyStatus> companyStatusList = userInfoService.getCompanyStatus(federatedStateVo);
         return  Result.ok(companyStatusList);
     }

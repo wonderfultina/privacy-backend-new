@@ -27,16 +27,14 @@ public class ResourceController {
     @PostMapping("/upload")
     public  Result upload(@RequestBody ResourceUploadVo resourceUploadVo){
 
-//        try{
-//            Map<String,Object> map = resourceService.uploadResource(resourceUploadVo);
-//            return Result.ok(map);
-//        }catch (PrivacyException p){
-//            return Result.build(p.getCode(), p.getMessage());
-//        }catch (Exception e){
-//            return Result.build(500, "上传资源失败");
-//        }
-        Map<String,Object> map = resourceService.uploadResource(resourceUploadVo);
-        return Result.ok(map);
+        try{
+            Map<String,Object> map = resourceService.uploadResource(resourceUploadVo);
+            return Result.ok(map);
+        }catch (PrivacyException p){
+            return Result.build(p.getCode(), p.getMessage());
+        }catch (Exception e){
+            return Result.build(500, "上传资源失败");
+        }
     }
 
     //查询某个资源
@@ -48,7 +46,7 @@ public class ResourceController {
         }catch (PrivacyException p){
             return Result.build(p.getCode(), p.getMessage());
         }catch (Exception e){
-            return Result.build(500, "查询失败");
+            return Result.build(500, "查询资源失败");
         }
 
     }
@@ -59,14 +57,16 @@ public class ResourceController {
     public Result index(@PathVariable Long page,
                         @PathVariable Long limit,
                         ResourceQueryVo resourceQueryVo){
-        System.out.println(resourceQueryVo.getCompanyId());
-        Page<Resource> pageParam = new Page<>(page, limit);
-        Page<Resource> pageModel = resourceService.selectResourcePage(pageParam, resourceQueryVo);
-        List<Resource> rescords = pageModel.getRecords();
-        for(Resource res : rescords){
-            System.out.println(res.getResourceId());
+        try {
+            Page<Resource> pageParam = new Page<>(page, limit);
+            Page<Resource> pageModel = resourceService.selectResourcePage(pageParam, resourceQueryVo);
+            return Result.ok(pageModel);
+        }catch (PrivacyException p){
+            return Result.build(p.getCode(), p.getMessage());
+        }catch (Exception e){
+            return Result.build(500, "分页查询资源失败");
         }
-        return Result.ok(pageModel);
+
     }
 
     //修改资源
@@ -78,7 +78,7 @@ public class ResourceController {
         }catch (PrivacyException p){
             return Result.build(p.getCode(), p.getMessage());
         }catch (Exception e){
-            return Result.build(500, "更新失败");
+            return Result.build(500, "修改资源失败");
         }
     }
 
@@ -91,7 +91,7 @@ public class ResourceController {
         }catch (PrivacyException p){
             return Result.build(p.getCode(), p.getMessage());
         }catch (Exception e){
-            return Result.build(500, "更新失败");
+            return Result.build(500, "删除资源失败");
         }
     }
 
