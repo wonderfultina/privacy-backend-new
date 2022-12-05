@@ -149,6 +149,7 @@ public class ProjectController {
     public Result transferTrainLog(HttpServletRequest request){
         System.out.println(request.getParameter("msg"));
         String msg = request.getParameter("msg");
+        System.out.println(msg);
         FileUtils utils = new FileUtils();
         //从msg中获取projectId、flowId、flowRecordId
         utils.saveJsonData(msg, "");

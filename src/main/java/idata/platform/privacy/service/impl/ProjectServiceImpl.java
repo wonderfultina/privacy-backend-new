@@ -20,10 +20,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -435,7 +432,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             //根据flowId和projectId查询日志
             byte[] respData;
             try {
-                respData = HttpRequestHelper.doGet("http://fl.api.todaydream.cn/privateCalLog/" + record.getFlowRecordId() + ".json");
+                respData = HttpRequestHelper.doGet("http://10.10.10.71:9602/" + record.getFlowRecordId() + ".json");
             }catch (Exception e){
                 respData = null;
             }
@@ -445,18 +442,20 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                 log.info(String.format("--> 应答结果：result data %1s", result));
                 //进度
                 JSONObject obj = JSON.parseObject(result);
-                Float progressbar = obj.getFloat("progressbar");
+                JSONObject runningLog = obj.getJSONArray("runningLog").getJSONObject(0);
+
+                Float progressbar = runningLog.getFloat("progress");
                 log.info(String.format("--> 进度：%1s", progressbar));
                 res.setProgress(progressbar);
                 //训练开始时间
-                Long startTime = obj.getLong("timeStart");
+                Long startTime = runningLog.getLong("start_time");
                 log.info(String.format("--> 时间戳：%1s", IdRandomUtils.timeStamp2Date(startTime)));
                 res.setTrainBegin(IdRandomUtils.timeStamp2Date(startTime*1000L));
                 //训练结束时间
-                Long endTime = obj.getLong("timeEnd");
+                Long endTime = runningLog.getLong("end_time");
                 res.setTrainEnd(IdRandomUtils.timeStamp2Date(endTime*1000L));
 
-                Long timeElapsed = obj.getLong("timeElapsed");
+                Long timeElapsed = endTime - startTime;
                 res.setTimeElapsed(timeElapsed);
 
             }
@@ -479,34 +478,40 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         //从日志中拿到时间以及组件详情
         List<Component> componentList = new ArrayList<>();
-        byte[] respData = HttpRequestHelper.doGet("http://fl.api.todaydream.cn/privateCalLog/" + flowRecordId + ".json");
+        byte[] respData = HttpRequestHelper.doGet("http://10.10.10.71:9602/" + flowRecordId + ".json");
 
         if(respData != null){
             String result = new String(respData);
             log.info(String.format("--> 应答结果：result data %1s", result));
+
             //进度
             JSONObject obj = JSON.parseObject(result);
+            JSONObject runningLog = obj.getJSONArray("runningLog").getJSONObject(0);
+
             //训练开始时间
-            Long startTime = obj.getLong("timeStart");
+            Long startTime = runningLog.getLong("start_time");
             res.setTrainBegin(IdRandomUtils.timeStamp2Date(startTime*1000L));
             //训练结束时间
-            Long endTime = obj.getLong("timeEnd");
+            Long endTime = runningLog.getLong("end_time");
             res.setTrainEnd(IdRandomUtils.timeStamp2Date(endTime*1000L));
             //运行时长
-            Long timeElapsed = obj.getLong("timeElapsed");
+            Long timeElapsed = endTime - startTime;
             res.setDuration(timeElapsed);
 
             //获取每一个算子的信息
-            JSONArray comList = obj.getJSONArray("normal");
+            JSONArray comList = obj.getJSONArray("componentLog");
             for (Object com : comList){
                 Component component = new Component();
                 JSONObject jsonObject = (JSONObject) com;
-                String name = constMap1.get(jsonObject.getString("content"));
-                Long begin = jsonObject.getLong("timeStart");
-                Long end = jsonObject.getLong("timeEnd");
-                Long duration = jsonObject.getLong("timeElapsed");
-                component.setBeginTime(IdRandomUtils.timeStamp2Date(begin*1000L));
-                component.setEndTime(IdRandomUtils.timeStamp2Date(end*1000L));
+//                String name = constMap1.get(jsonObject.getString("name"));
+                String name = jsonObject.getString("name");
+                Date begin = jsonObject.getDate("begin");
+                Date end = jsonObject.getDate("end");
+                Long duration = jsonObject.getLong("duration");
+//                component.setBeginTime(IdRandomUtils.timeStamp2Date(begin*1000L));
+//                component.setEndTime(IdRandomUtils.timeStamp2Date(end*1000L));
+                component.setBeginTime(begin);
+                component.setEndTime(end);
                 component.setDuration(duration);
                 component.setName(name);
                 componentList.add(component);

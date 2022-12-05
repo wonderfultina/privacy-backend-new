@@ -102,28 +102,30 @@ public class FlowRecordServiceImpl extends ServiceImpl<FlowRecordMapper, Process
             metric.setProcessName(record.getProcessName());
             metric.setStatus(record.getStatus());
 
-            byte[] respData = HttpRequestHelper.doGet("http://fl.api.todaydream.cn/privateCalLog/" + record.getFlowRecordId() + ".json");
+            byte[] respData = HttpRequestHelper.doGet("http://10.10.10.71:9602/" + record.getFlowRecordId() + ".json");
             if(respData != null){
                 String result = new String(respData);
                 System.out.println(result);
                 //进度
                 JSONObject obj = JSON.parseObject(result);
-                Float progressbar = obj.getFloat("progressbar");
+                JSONObject runningLog = obj.getJSONArray("runningLog").getJSONObject(0);
+
+                Float progressbar = runningLog.getFloat("progress");
                 metric.setProgressbar(progressbar);
 
                 //训练开始时间
-                Long startTime = obj.getLong("timeStart");
+                Long startTime = runningLog.getLong("start_time");
                 System.out.println(startTime);
                 if(startTime != null){
                     metric.setTrainBegin(IdRandomUtils.timeStamp2Date(startTime*1000L));
                 }
                 //训练结束时间
-                Long endTime = obj.getLong("timeEnd");
+                Long endTime = runningLog.getLong("end_time");
                 if (endTime != null){
                     metric.setTrainEnd(IdRandomUtils.timeStamp2Date(endTime*1000L));
                 }
                 //训练过程中的指标信息
-                JSONArray comList = obj.getJSONArray("metric");
+                JSONArray comList = obj.getJSONArray("metricLog");
                 metric.setMetricData(comList);
             }
 
