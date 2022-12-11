@@ -33,7 +33,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     public Page<Resource> selectResourcePage(Page<Resource> pageParam, ResourceQueryVo resourceQueryVo) {
         String name = resourceQueryVo.getResourceName();
         String type = resourceQueryVo.getResourceType();
-//        String visible = resourceQueryVo.getVisible();
+        String scene = resourceQueryVo.getScene();
         String createUser = resourceQueryVo.getCreateUser();
         String keywords = resourceQueryVo.getKeyWords();
         String companyId = resourceQueryVo.getCompanyId();
@@ -52,13 +52,14 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         if(!isEmpty(keywords)) {
             wrapper.like("keywords",keywords);
         }
+        if(!isEmpty(scene)) {
+            wrapper.like("use_scene",scene);
+        }
 
         if(!isEmpty(name)) {
             wrapper.like("resource_name",name);
         }
-//        if(!StringUtils.isEmpty(visible)) {
-//            wrapper.eq("visible",visible);
-//        }
+
         if(!isEmpty(createUser)) {
             wrapper.eq("create_user",createUser);
         }
@@ -129,7 +130,6 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         QueryWrapper<Resource> wrapper = new QueryWrapper<>();
         List<Resource> resList = null;
         if(idList.size() > 0 ) {
-            System.out.println(idList);
             wrapper.in("resource_id",idList);
             resList = baseMapper.selectList(wrapper);
         }

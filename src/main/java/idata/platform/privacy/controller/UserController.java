@@ -38,7 +38,6 @@ public class UserController{
     //上传图片
     @PostMapping("/upload/CompanyLogo")
     public Result uploadCompanyLogo(@RequestParam(name = "files", required = false) MultipartFile file, HttpServletRequest request){
-        System.out.println("uploadCompanyLogo");
         String url = userInfoService.uploadCompanyLogo(file, request);
         return Result.ok(null);
     }

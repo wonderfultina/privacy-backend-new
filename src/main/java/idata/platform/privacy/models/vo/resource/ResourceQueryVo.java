@@ -19,6 +19,9 @@ public class ResourceQueryVo implements Serializable {
     @ApiModelProperty(value = "公司id")
     private String companyId;
 
+    @ApiModelProperty(value = "使用场景")
+    private String scene;
+
     @ApiModelProperty(value = "公司")
     private String companyName;
 

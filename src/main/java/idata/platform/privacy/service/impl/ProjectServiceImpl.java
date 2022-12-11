@@ -31,6 +31,10 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     private ResourceProjectService resourceProjectService;
     @Autowired
     private ModelService modelService;
+
+    @Autowired
+    private InferenceService inferenceService;
+
     @Lazy
     @Autowired
     private ResourceService resourceService;
@@ -177,8 +181,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public String getProcessFlowByFlowRecordId(String flowRecordId, String projectId) {
-        String processFlow = flowRecordService.getProcessFlowByFlowRecordId(flowRecordId, projectId);
+    public ProcessFlowRecord getProcessFlowByFlowRecordId(String flowRecordId, String projectId) {
+        ProcessFlowRecord processFlow = flowRecordService.getProcessFlowByFlowRecordId(flowRecordId, projectId);
         return processFlow;
     }
 
@@ -214,7 +218,6 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public Project getProjectByIdList(String projectId) {
         QueryWrapper<Project> wrapper = new QueryWrapper<>();
         if(!StringUtils.isEmpty(projectId)){
-            System.out.println(projectId);
             wrapper.eq("project_id", projectId);
         }
         Project project = baseMapper.selectOne(wrapper);
@@ -294,8 +297,6 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         List<ProcessFlow> ProcessFlowList = processFlowService.queryProcessFlow(projectId);
         projectInfo.setProcessFlowList(ProcessFlowList);
         //模型列表
-
-        modelService.queryModel(projectId);
         return projectInfo;
     }
 
@@ -307,8 +308,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         List<ResourceProject>  resProList = resourceProjectService.queryResProjectByResId(resourceId);
         //对于每一个资源项目
         for(ResourceProject resPro : resProList){
-            System.out.println(234);
-            System.out.println(resPro);
+
             String proId = resPro.getProjectId();
             ProjectListRes projectRes = new ProjectListRes();
 
@@ -379,8 +379,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                 }
             }
             projectRes.setCooperationCompanyList(companyList);
-            System.out.println(pro.getIsActive());
-            System.out.println(comPro.getIsActive());
+
             //是主动方
             if(pro.getIsActive() == 1){
                 projectRes.setActiveCompany(pro.getCompanyName());
@@ -487,6 +486,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             //进度
             JSONObject obj = JSON.parseObject(result);
             JSONObject runningLog = obj.getJSONArray("runningLog").getJSONObject(0);
+            Integer progress = runningLog.getInteger("progress");
 
             //训练开始时间
             Long startTime = runningLog.getLong("start_time");
@@ -518,9 +518,10 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             }
 
             res.setLogInfo(comList.toJSONString());
+            res.setLog(result);
+            res.setProgress(progress);
         }
         res.setComponentList(componentList);
-
 
         return res;
     }
@@ -529,4 +530,18 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         modelService.createModel(modelCreateVo);
         return null;
     }
+
+    @Override
+    public List<Model> getModelList(GetModelVo getModelVo) {
+        List<Model> modelList = modelService.getModelList(getModelVo);
+        return modelList;
+    }
+
+    @Override
+    public List<Inference> getInferenceModelList(GetInferenceModelVo getInferenceModelVo) {
+        List<Inference> inferenceModelList =  inferenceService.getInferenceModelList(getInferenceModelVo);
+        return inferenceModelList;
+    }
+
+
 }

@@ -18,15 +18,18 @@ public class Model extends BaseEntity {
     @TableField("model_id")
     private String modelId;
 
+    @ApiModelProperty(value = "公司id")
+    @TableField("company_id")
+    private String companyId;
+
     @ApiModelProperty(value = "模型名称")
     //以数据处理流程名称-记录id命名
     @TableField("model_name")
     private String modelName;
 
-    @ApiModelProperty(value = "我方角色")
-    //以数据处理流程名称-记录id命名
-    @TableField("role")
-    private String role;
+    @ApiModelProperty(value = "模型路径")
+    @TableField("model_path")
+    private String modelPath;
 
     @ApiModelProperty(value = "项目id")
     @TableField("project_id")

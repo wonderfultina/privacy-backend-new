@@ -9,7 +9,8 @@ import java.util.List;
 
 public interface FlowRecordService extends IService<ProcessFlowRecord> {
     List<ProcessFlowRecord> queryProcessFlowRecord(String flowId, String projectId);
-    String getProcessFlowByFlowRecordId(String flowRecordId,String projectId);
+    ProcessFlowRecord getProcessFlowByFlowRecordId(String flowRecordId,String projectId);
+    ProcessFlowRecord getProcessFlowRecord(String flowRecordId,String projectId);
     ProcessFlowRecord createProcessFlowRecord(ProcessFlowRecordVo processFlowRecord);
     List<ProcessFlowRecordMetric> getFlowRecordMetricByProjectId(String projectId);
     List<ProcessFlowRecord> getFlowRecordByProjectId(String projectId);

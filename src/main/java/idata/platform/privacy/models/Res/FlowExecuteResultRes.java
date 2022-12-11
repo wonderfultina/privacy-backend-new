@@ -42,4 +42,10 @@ public class FlowExecuteResultRes {
 
     @ApiModelProperty(value = "日志详情")
     private String logInfo;
+
+    @ApiModelProperty(value = "进度")
+    private Integer progress;
+
+    @ApiModelProperty(value = "日志")
+    private String log;
 }

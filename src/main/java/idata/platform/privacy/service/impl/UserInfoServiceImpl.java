@@ -49,9 +49,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             map.put("companyId", userInfo.getCompanyId());
             map.put("userId", userInfo.getUserId());
 
-            //输出id
-            System.out.println("companyId");
-            System.out.println(userInfo.getCompanyId());
 //            //返回token信息
 //            String token = JwtHelper.createToken(userInfo.getId(), name);
 //            map.put("token", token);
@@ -99,7 +96,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             String result = "";
             try {
                 result = URLDecoder.decode(logo, "utf-8");
-                System.out.println(result);
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -121,7 +117,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         //查询所有公司
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         List<UserInfo> UserInfoList = baseMapper.selectList(wrapper);
-        System.out.println(UserInfoList);
         List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
         //判断用户信息是否为空
         if(UserInfoList == null){
@@ -142,7 +137,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public String uploadCompanyLogo(MultipartFile file, HttpServletRequest request) {
         String path = "/root/idata/companyLogo";
-        System.out.println(path);
         //获取文件名称
         String fileName = file.getOriginalFilename();
         //获取文件名后缀
@@ -170,7 +164,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             String fileUrl="http://10.10.10.71:8151/";
             //文件获取路径
             fileUrl = fileUrl + fileName;
-            System.out.println(fileUrl);
             //return R.ok().put("fileUrl", fileUrl);
             return fileUrl;
         }else{

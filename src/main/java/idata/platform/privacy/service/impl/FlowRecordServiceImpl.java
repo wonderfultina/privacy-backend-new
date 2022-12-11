@@ -42,7 +42,7 @@ public class FlowRecordServiceImpl extends ServiceImpl<FlowRecordMapper, Process
     }
 
     @Override
-    public String getProcessFlowByFlowRecordId(String flowRecordId, String projectId) {
+    public ProcessFlowRecord getProcessFlowByFlowRecordId(String flowRecordId, String projectId) {
         QueryWrapper<ProcessFlowRecord> wrapper = new QueryWrapper<>();
         if(!StringUtils.isEmpty(flowRecordId)){
             wrapper.eq("flow_record_id", flowRecordId);
@@ -52,7 +52,20 @@ public class FlowRecordServiceImpl extends ServiceImpl<FlowRecordMapper, Process
         }
         ProcessFlowRecord record = baseMapper.selectOne(wrapper);
 
-        return record.getProcessFlow();
+        return record;
+    }
+
+    @Override
+    public ProcessFlowRecord getProcessFlowRecord(String flowRecordId, String projectId) {
+        QueryWrapper<ProcessFlowRecord> wrapper = new QueryWrapper<>();
+        if(!StringUtils.isEmpty(flowRecordId)){
+            wrapper.eq("flow_record_id", flowRecordId);
+        }
+        if(!StringUtils.isEmpty(projectId)){
+            wrapper.eq("project_id", projectId);
+        }
+        ProcessFlowRecord record = baseMapper.selectOne(wrapper);
+        return  record;
     }
 
     @Override
@@ -105,7 +118,6 @@ public class FlowRecordServiceImpl extends ServiceImpl<FlowRecordMapper, Process
             byte[] respData = HttpRequestHelper.doGet("http://10.10.10.71:9602/" + record.getFlowRecordId() + ".json");
             if(respData != null){
                 String result = new String(respData);
-                System.out.println(result);
                 //进度
                 JSONObject obj = JSON.parseObject(result);
                 JSONObject runningLog = obj.getJSONArray("runningLog").getJSONObject(0);
@@ -115,7 +127,6 @@ public class FlowRecordServiceImpl extends ServiceImpl<FlowRecordMapper, Process
 
                 //训练开始时间
                 Long startTime = runningLog.getLong("start_time");
-                System.out.println(startTime);
                 if(startTime != null){
                     metric.setTrainBegin(IdRandomUtils.timeStamp2Date(startTime*1000L));
                 }

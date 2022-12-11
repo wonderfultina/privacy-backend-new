@@ -1,8 +1,7 @@
 package idata.platform.privacy.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import idata.platform.privacy.models.Res.*;
-import idata.platform.privacy.models.project.ProcessFlow;
-import idata.platform.privacy.models.project.Project;
+import idata.platform.privacy.models.project.*;
 import idata.platform.privacy.models.vo.project.*;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,7 @@ public interface ProjectService extends IService<Project> {
 
     ProcessFlow getProcessFlowByFlowId(String flowId, String projectId);
 
-    String getProcessFlowByFlowRecordId(String flowId,String projectId);
+    ProcessFlowRecord getProcessFlowByFlowRecordId(String flowId, String projectId);
 
     String deleteProcessFlow(String flowRecordId,String projectId);
 
@@ -45,6 +44,9 @@ public interface ProjectService extends IService<Project> {
 
     Map<String, String> createModel(ModelCreateVo modelCreateVo);
 
+    List<Model> getModelList(GetModelVo getModelVo);
+
+    List<Inference> getInferenceModelList(GetInferenceModelVo getInferenceModelVo);
 
 
 }

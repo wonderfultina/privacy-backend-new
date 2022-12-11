@@ -57,6 +57,10 @@ public class ProcessFlowRecord extends BaseEntity {
     @TableField("status")
     private Long status;
 
+    @ApiModelProperty(value = "模型类型")
+    @TableField("is_SBT")
+    private Long isSBT;
+
     @ApiModelProperty(value = "失败原因")
     @TableField("fail_reason")
     private String failReason;

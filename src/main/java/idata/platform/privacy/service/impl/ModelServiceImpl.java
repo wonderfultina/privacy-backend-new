@@ -7,6 +7,7 @@ import idata.platform.privacy.mapper.ModelMapper;
 import idata.platform.privacy.models.project.Model;
 import idata.platform.privacy.models.project.ModelToFlowRecord;
 import idata.platform.privacy.models.project.ProcessFlow;
+import idata.platform.privacy.models.vo.project.GetModelVo;
 import idata.platform.privacy.service.ModelService;
 import idata.platform.privacy.service.ModelToFlowRecordService;
 import idata.platform.privacy.service.ProcessFlowService;
@@ -76,16 +77,34 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
     }
 
     @Override
-    public List<Model> queryModel(String projectId) {
-
+    public List<Model> getModelList(GetModelVo getModelVo) {
         QueryWrapper<Model> wrapper = new QueryWrapper<>();
+
+        String projectId = getModelVo.getProjectId();
+        String companyId = getModelVo.getCompanyId();
+        String flowRecordId = getModelVo.getFlowRecordId();
+        String flowId = getModelVo.getFlowId();
+        String modelId = getModelVo.getModelId();
         if(!StringUtils.isEmpty(projectId)){
             wrapper.eq("project_id", projectId);
         }
-        List<Model> modelList = baseMapper.selectList(wrapper);
+        if(!StringUtils.isEmpty(companyId)){
+            wrapper.eq("company_id", companyId);
+        }
+        if(!StringUtils.isEmpty(companyId)){
+            wrapper.eq("company_id", companyId);
+        }
+        if(!StringUtils.isEmpty(flowId)){
+            wrapper.eq("flow_id", flowId);
+        }
+        if(!StringUtils.isEmpty(modelId)){
+            wrapper.eq("model_id", modelId);
+        }
+        if(!StringUtils.isEmpty(flowRecordId)){
+            wrapper.eq("flow_record_id", flowRecordId);
+        }
 
-        //每一个模型的指标从日志文件中取
-        //应该是定时刷新的 TODO
+        List<Model> modelList = baseMapper.selectList(wrapper);
         return modelList;
     }
 }

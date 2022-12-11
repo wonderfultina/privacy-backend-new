@@ -4,7 +4,10 @@ import idata.platform.privacy.common.Result;
 import idata.platform.privacy.common.exception.PrivacyException;
 import idata.platform.privacy.common.util.FileUtils;
 import idata.platform.privacy.models.Res.*;
+import idata.platform.privacy.models.project.Inference;
+import idata.platform.privacy.models.project.Model;
 import idata.platform.privacy.models.project.ProcessFlow;
+import idata.platform.privacy.models.project.ProcessFlowRecord;
 import idata.platform.privacy.service.ProjectService;
 import idata.platform.privacy.models.vo.project.*;
 import io.swagger.annotations.Api;
@@ -179,7 +182,7 @@ public class ProjectController {
     @GetMapping("/get/processFlowByFlowRecordId")
     public Result CreateProcessFlow(String flowRecordId, String projectId){
         try {
-            String processFlow = projectService.getProcessFlowByFlowRecordId(flowRecordId, projectId);
+            ProcessFlowRecord processFlow = projectService.getProcessFlowByFlowRecordId(flowRecordId, projectId);
             return Result.ok(processFlow);
         }catch (PrivacyException p){
             return Result.build(p.getCode(), p.getMessage());
@@ -246,13 +249,27 @@ public class ProjectController {
     //日志回调函数
     @PostMapping("/transferLog")
     public Result transferTrainLog(HttpServletRequest request){
-        System.out.println(request.getParameter("msg"));
         String msg = request.getParameter("msg");
-        System.out.println(msg);
         FileUtils utils = new FileUtils();
         //从msg中获取projectId、flowId、flowRecordId
         utils.saveJsonData(msg, "");
         return Result.ok(null);
     }
+
+    //查看模型列表
+    @GetMapping("/get/modelList")
+    public Result getModelList(GetModelVo getModelVo){
+        List<Model> modelList = projectService.getModelList(getModelVo);
+        return Result.ok(modelList);
+    }
+
+
+    //查询推理模型列表
+    @GetMapping("/get/inferenceModelList")
+    public Result inferenceModelList(GetInferenceModelVo getInferenceModelVo){
+        List<Inference> inferenceModelList = projectService.getInferenceModelList(getInferenceModelVo);
+        return Result.ok(inferenceModelList);
+    }
+
 
 }
