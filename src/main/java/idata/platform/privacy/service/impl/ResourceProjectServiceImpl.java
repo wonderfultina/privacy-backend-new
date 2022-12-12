@@ -46,25 +46,26 @@ public class ResourceProjectServiceImpl extends ServiceImpl<ResourceProjectMappe
     @Override
     public Map<String, Object> addResourceProject(CreateResourceProjectVo createResourceProjectVo) {
         String pid = createResourceProjectVo.getProjectId();
-        List<Map<String, String>> comResourceList = createResourceProjectVo.getCompanyResourceList();
+       Map<String, List<String>> comResourceList = createResourceProjectVo.getCompanyResourceList();
         String activeComId = createResourceProjectVo.getActiveComId();
         List<String> resIdList = new ArrayList<>();
-        for (Map<String, String> comResource : comResourceList){
-            ResourceProject resourceProject = new ResourceProject();
-            for (String key : comResource.keySet()) {
+        for (String key : comResourceList.keySet()){
+            for (String resId : comResourceList.get(key)){
+                ResourceProject resourceProject = new ResourceProject();
                 if(key.equals(activeComId)){
                     resourceProject.setIsActive(1);
                 }else{
                     resourceProject.setIsActive(0);
                 }
                 resourceProject.setCompanyId(key);
-                resourceProject.setResourceId(comResource.get(key));
-                //资源id集合
-                resIdList.add(comResource.get(key));
+                resourceProject.setResourceId(resId);
+                resIdList.add(resId);
+                resourceProject.setProjectId(pid);
+                baseMapper.insert(resourceProject);
             }
-            resourceProject.setProjectId(pid);
-            baseMapper.insert(resourceProject);
+
         }
+
 
         //更新资源表中该资源被使用的次数
         for(String resId : resIdList){

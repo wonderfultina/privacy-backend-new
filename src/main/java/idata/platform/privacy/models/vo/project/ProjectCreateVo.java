@@ -1,5 +1,6 @@
 package idata.platform.privacy.models.vo.project;
 
+import idata.platform.privacy.models.resource.Resource;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,13 +28,16 @@ public class ProjectCreateVo {
     private String sponsorCompanyId;
 
     @ApiModelProperty(value = "发起方公司资源")
-    private String sponsorResId;
+    private List<String> sponsorResId;
+
+    @ApiModelProperty(value = "发起方公司资源")
+    private List<Resource> sponsorRes;
 
     @ApiModelProperty(value = "协作方id公司")
     private List<Company> passiveCompanyList;
 
     @ApiModelProperty(value = "协作方公司资源")
-    private List<Map<String, String>> passiveCompanyMap;
+    private Map<String, List<String>> passiveCompanyMap;
 
 //    @ApiModelProperty(value = "模型名称")
 //    private String ModelName;

@@ -65,13 +65,12 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         String projectDesc = projectCreateVo.getProjectDesc();
         String createUser = projectCreateVo.getCreateUser();
         String type = projectCreateVo.getProjectType();
-//        String processName = projectCreateVo.getModelName();
-//        String processFlow = projectCreateVo.getProcessFlow();
         String sponsorCompany = projectCreateVo.getSponsorCompany();
         String sponsorCompanyId = projectCreateVo.getSponsorCompanyId();
-        String sponsorResId = projectCreateVo.getSponsorResId();
+        List<String> sponsorRes = projectCreateVo.getSponsorResId();
 
-        List<Map<String, String>> partnerCompanyMap = projectCreateVo.getPassiveCompanyMap();
+        System.out.println(sponsorRes);
+        Map<String, List<String>> partnerCompanyMap = projectCreateVo.getPassiveCompanyMap();
 
         List<Company> partnerCompanyList = projectCreateVo.getPassiveCompanyList();
         String projectId = "pro" + IdRandomUtils.getRandomID().toString();
@@ -104,25 +103,16 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         CreateResourceProjectVo resourceProjectVo = new CreateResourceProjectVo();
         resourceProjectVo.setProjectId(projectId);
         resourceProjectVo.setActiveComId(sponsorCompanyId);
-        HashMap<String, String> map= new HashMap<>();
-        map.put(sponsorCompanyId, sponsorResId);
-        partnerCompanyMap.add(map);
+        HashMap<String, List<String>> map= new HashMap<>();
+
+        partnerCompanyMap.put(sponsorCompanyId, sponsorRes);
         resourceProjectVo.setCompanyResourceList(partnerCompanyMap);
         resourceProjectService.addResourceProject(resourceProjectVo);
 
-        //添加数据处理流程,插入数据处理流程表
-//        ProcessFlow flow = new ProcessFlow();
-//        String flowId = "fl" + IdRandomUtils.getRandomID().toString();
-//        flow.setFlowId(flowId);
-//        flow.setProcessFlow(processFlow);
-//        flow.setProcessName(processName);
-//        flow.setCreateUser(createUser);
-//        flow.setProjectId(projectId);
-//        processFlowService.createProcessFlow(flow);
-
         //返回值
-        map.put("projectId", projectId);
-        return map;
+        HashMap<String, String> reMap= new HashMap<>();
+        reMap.put("projectId", projectId);
+        return reMap;
     }
 
     @Override

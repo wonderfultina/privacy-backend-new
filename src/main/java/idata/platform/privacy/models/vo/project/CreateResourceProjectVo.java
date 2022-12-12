@@ -17,6 +17,6 @@ public class CreateResourceProjectVo {
     private String activeComId;
 
     @ApiModelProperty(value = "公司资源")
-    private List<Map<String, String>> companyResourceList;
+    private Map<String, List<String>> companyResourceList;
 
 }
