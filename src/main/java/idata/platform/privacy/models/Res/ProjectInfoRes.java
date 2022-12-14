@@ -5,6 +5,7 @@ import idata.platform.privacy.models.project.Model;
 import idata.platform.privacy.models.project.ProcessFlow;
 import idata.platform.privacy.models.resource.Resource;
 import idata.platform.privacy.models.user.UserInfo;
+import idata.platform.privacy.models.vo.project.ResourceTypeVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -42,6 +43,9 @@ public class ProjectInfoRes {
 
     @ApiModelProperty(value = "协作公司id集合")
     private List<String> companyIdList;
+
+    @ApiModelProperty(value = "公司id:资源")
+    private Map<String, List<ResourceTypeVo>> companyResTypeMap;
 
     @ApiModelProperty(value = "公司id:资源")
     private Map<String, List<Resource>> companyResMap;

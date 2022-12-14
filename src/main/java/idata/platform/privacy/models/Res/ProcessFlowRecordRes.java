@@ -44,7 +44,6 @@ public class ProcessFlowRecordRes {
     private Long timeElapsed;
 
     @ApiModelProperty(value = "该记录对应的数据处理流程")
-    @TableField("process_flow")
     private String processFlow;
 
     @ApiModelProperty(value = "模型的状态 0:未开始 1:进行中 2:已完成 3:失败")

@@ -2,6 +2,7 @@ package idata.platform.privacy.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import idata.platform.privacy.models.resource.Resource;
+import idata.platform.privacy.models.vo.project.ResourceTypeVo;
 import idata.platform.privacy.models.vo.resource.ResourceQueryVo;
 import idata.platform.privacy.models.vo.resource.ResourceUpdateVo;
 import idata.platform.privacy.models.vo.resource.ResourceUploadVo;
@@ -16,6 +17,8 @@ public interface ResourceService extends IService<Resource> {
     Map<String, Object> uploadResource(ResourceUploadVo resourceUploadVo);
 
     List<Resource> queryResourceByBatchId(List<String> resourceId);
+
+    List<ResourceTypeVo> getResourceTypeList(List<String> resourceId);
 
     String updateResource(ResourceUpdateVo resourceUpdateVo);
 

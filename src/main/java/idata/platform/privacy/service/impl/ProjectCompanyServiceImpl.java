@@ -22,6 +22,8 @@ public class ProjectCompanyServiceImpl extends ServiceImpl<ProjectCompanyMapper,
 
         for (Company m : createProjectCompanyVo.getCompanyMap()) {
             CompanyProject projectCompany = new CompanyProject();
+            System.out.println(projectId);
+            System.out.println(m.getCompanyId());
             projectCompany.setProjectId(projectId);
             projectCompany.setProjectName(projectName);
             projectCompany.setCompanyId(m.getCompanyId());

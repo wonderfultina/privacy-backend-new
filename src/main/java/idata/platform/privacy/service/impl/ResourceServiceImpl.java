@@ -7,10 +7,13 @@ import idata.platform.privacy.common.ResultCodeEnum;
 import idata.platform.privacy.common.exception.PrivacyException;
 import idata.platform.privacy.common.util.IdRandomUtils;
 import idata.platform.privacy.mapper.ResourceMapper;
+import idata.platform.privacy.models.project.DataSourceTb;
+import idata.platform.privacy.models.project.DatasetRelationTable;
+import idata.platform.privacy.models.project.TableStructureTb;
 import idata.platform.privacy.models.resource.Resource;
 import idata.platform.privacy.models.user.UserInfo;
-import idata.platform.privacy.service.ResourceService;
-import idata.platform.privacy.service.UserInfoService;
+import idata.platform.privacy.models.vo.project.ResourceTypeVo;
+import idata.platform.privacy.service.*;
 import idata.platform.privacy.models.vo.resource.ResourceQueryVo;
 import idata.platform.privacy.models.vo.resource.ResourceUpdateVo;
 import idata.platform.privacy.models.vo.resource.ResourceUploadVo;
@@ -28,6 +31,12 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements ResourceService {
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private DatasetRelationTableService datasetRelationTableService;
+    @Autowired
+    private DataSourceTbService dataSourceTbService;
+    @Autowired
+    private TableStructureTbService tableStructureTbService;
 
     @Override
     public Page<Resource> selectResourcePage(Page<Resource> pageParam, ResourceQueryVo resourceQueryVo) {
@@ -136,6 +145,50 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
 
         return resList;
+    }
+
+    @Override
+    public List<ResourceTypeVo> getResourceTypeList(List<String> resourceIdList) {
+        List<ResourceTypeVo> resourceTypeList = new ArrayList<>();
+
+        for(String resourceId : resourceIdList){
+            ResourceTypeVo resourceType = new ResourceTypeVo();
+            //查看资源表
+            QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+            wrapper.eq("resource_id",resourceId);
+            Resource res = baseMapper.selectOne(wrapper);
+
+            resourceType.setResourceId(resourceId);
+            resourceType.setCompanyId(res.getCompanyId());
+            resourceType.setKeywords(res.getKeywords());
+            resourceType.setResourceTrainPath(res.getResourceTrainPath());
+            resourceType.setResourceTestPath(res.getResourceTestPath());
+            resourceType.setResourceDesc(res.getResourceDesc());
+            resourceType.setResourceName(res.getResourceName());
+            resourceType.setResourceType(res.getResourceType());
+            resourceType.setResourceInfo(res.getResourceInfo());
+
+            if(res.getResourceType().equals("数据库")){
+                List<DatasetRelationTable>  relationTables = datasetRelationTableService.getDatasetRelationTableByResId(resourceId);
+                //根据表id查表 根据数据源id查数据源配置
+                String dataSourceId = relationTables.get(0).getDataSourceId();
+                DataSourceTb tb = dataSourceTbService.getDataSourceBySourceId(dataSourceId);
+                resourceType.setConfigName(tb.getConfigName());
+                List<String> tableIdList = new ArrayList<>();
+                for(DatasetRelationTable table : relationTables){
+                    tableIdList.add(table.getTableId());
+                }
+                List<String> tableName = new ArrayList<>();
+                List<TableStructureTb> structureList = tableStructureTbService.getTableStructureById(tableIdList, dataSourceId);
+                for(TableStructureTb structure : structureList){
+                    tableName.add(structure.getTableName());
+                }
+
+                resourceType.setTableList(tableName);
+            }
+            resourceTypeList.add(resourceType);
+        }
+        return resourceTypeList;
     }
 
     @Override

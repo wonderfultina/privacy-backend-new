@@ -28,14 +28,16 @@ public class ProjectController {
     //创建项目
     @PostMapping("/create")
     public Result create(@RequestBody ProjectCreateVo projectCreateVo){
-        try {
-            Map<String, String> map = projectService.createProject(projectCreateVo);
-            return Result.ok(map);
-        }catch (PrivacyException p){
-            return Result.build(p.getCode(), p.getMessage());
-        }catch (Exception e){
-            return Result.build(500, "创建项目失败");
-        }
+//        try {
+//            Map<String, String> map = projectService.createProject(projectCreateVo);
+//            return Result.ok(map);
+//        }catch (PrivacyException p){
+//            return Result.build(p.getCode(), p.getMessage());
+//        }catch (Exception e){
+//            return Result.build(500, "创建项目失败");
+//        }
+        Map<String, String> map = projectService.createProject(projectCreateVo);
+        return Result.ok(map);
     }
 
     //页面上的添加资源到此项目
@@ -83,14 +85,17 @@ public class ProjectController {
     //查看项目
     @GetMapping("/selectProjectById")
     public Result selectProjectById(String projectId){
-        try {
-            ProjectInfoRes projectInfo = projectService.selectProjectById(projectId);
-            return Result.ok(projectInfo);
-        }catch (PrivacyException p){
-            return Result.build(p.getCode(), p.getMessage());
-        }catch (Exception e){
-            return Result.build(500, "查看项目失败");
-        }
+//        try {
+//            ProjectInfoRes projectInfo = projectService.selectProjectById(projectId);
+//            return Result.ok(projectInfo);
+//        }catch (PrivacyException p){
+//            return Result.build(p.getCode(), p.getMessage());
+//        }catch (Exception e){
+//            return Result.build(500, "查看项目失败");
+//        }
+        ProjectInfoRes projectInfo = projectService.selectProjectById(projectId);
+        return Result.ok(projectInfo);
+
 
     }
 

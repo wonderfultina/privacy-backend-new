@@ -69,7 +69,6 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         String sponsorCompanyId = projectCreateVo.getSponsorCompanyId();
         List<String> sponsorRes = projectCreateVo.getSponsorResId();
 
-        System.out.println(sponsorRes);
         Map<String, List<String>> partnerCompanyMap = projectCreateVo.getPassiveCompanyMap();
 
         List<Company> partnerCompanyList = projectCreateVo.getPassiveCompanyList();
@@ -264,10 +263,28 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         }
 
         //查找资源表
-        List<Resource> resList = resourceService.queryResourceByBatchId(ResIdList);
+        List<ResourceTypeVo> resTypeList = resourceService.getResourceTypeList(ResIdList);
         //一个公司多个资源
-        Map<String, List<Resource>> companyResMap = new HashMap<>();
+        Map<String, List<ResourceTypeVo>> companyResTypeMap = new HashMap<>();
+        for(ResourceTypeVo res : resTypeList){
 
+            //如果已经有了该公司，直接放资源
+            if(companyResTypeMap.containsKey(res.getCompanyId())){
+                List<ResourceTypeVo> list = companyResTypeMap.get(res.getCompanyId());
+                list.add(res);
+            }else{
+                List<ResourceTypeVo> list = new ArrayList<>();
+                list.add(res);
+                companyResTypeMap.put(res.getCompanyId(), list);
+            }
+        }
+        System.out.println("companyResTypeMap");
+        System.out.println(companyResTypeMap);
+        projectInfo.setCompanyResTypeMap(companyResTypeMap);
+        System.out.println(projectInfo);
+
+        List<Resource> resList = resourceService.queryResourceByBatchId(ResIdList);
+        Map<String, List<Resource>> companyResMap = new HashMap<>();
         for(Resource res : resList){
 
             //如果已经有了该公司，直接放资源
@@ -280,8 +297,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                 companyResMap.put(res.getCompanyId(), list);
             }
         }
-
         projectInfo.setCompanyResMap(companyResMap);
+
 
         //根据项目id查找数据处理流程
         List<ProcessFlow> ProcessFlowList = processFlowService.queryProcessFlow(projectId);
