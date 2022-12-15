@@ -58,6 +58,7 @@ idata/platform/privacy/models/project/ProcessToFlowRecord.class
 idata/platform/privacy/controller/ResourceController.class
 idata/platform/privacy/mapper/InferenceMapper.class
 idata/platform/privacy/service/impl/ModelServiceImpl.class
+idata/platform/privacy/common/util/DruidConfig.class
 idata/platform/privacy/models/vo/project/CreateProjectCompanyVo.class
 idata/platform/privacy/models/vo/project/CreateResourceProjectVo.class
 idata/platform/privacy/service/ModelService.class
@@ -65,6 +66,7 @@ idata/platform/privacy/mapper/UserInfoMapper.class
 idata/platform/privacy/models/vo/project/ProcessFlowVo.class
 idata/platform/privacy/controller/UserController.class
 idata/platform/privacy/models/Res/Component.class
+idata/platform/privacy/common/util/DruidDataSourceProperties.class
 idata/platform/privacy/mapper/ResourceMapper.class
 idata/platform/privacy/service/ModelFlowService.class
 idata/platform/privacy/service/impl/ProjectServiceImpl.class

@@ -35,6 +35,7 @@
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/models/vo/project/GetPublishModelVo.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/service/ModelService.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/models/project/ProcessFlowInfo.java
+/Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/common/util/DruidConfig.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/mapper/ResourceProjectMapper.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/service/impl/DataSourceTbServiceImpl.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/models/Res/ResourceQueryRes.java
@@ -61,6 +62,7 @@
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/mapper/ModelToFlowRecordMapper.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/models/project/ProcessFlow.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/common/util/FileUtils.java
+/Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/common/util/DruidDataSourceProperties.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/mapper/FlowRecordMapper.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/models/Res/ProcessFlowRecordMetric.java
 /Users/congcong/Documents/idata/隐私计算平台/privacy-backend2/src/main/java/idata/platform/privacy/models/project/CompanyProject.java
