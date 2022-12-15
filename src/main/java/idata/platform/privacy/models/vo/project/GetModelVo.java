@@ -19,8 +19,6 @@ public class GetModelVo {
     @ApiModelProperty(value = "处理流程id")
     private String flowId;
 
-    @ApiModelProperty(value = "模型id")
-    private String modelId;
 
 
 }

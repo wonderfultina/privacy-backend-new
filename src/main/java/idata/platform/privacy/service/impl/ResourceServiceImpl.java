@@ -94,8 +94,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         String publicLevel = resourceUploadVo.getPublicLevel();
         List<String> keywords = resourceUploadVo.getKeywords();
 
-        String trainPath = resourceUploadVo.getResourceTrainPath();
-        String testPath = resourceUploadVo.getResourceTestPath();
+        String path = resourceUploadVo.getResourcePath();
+//        String testPath = resourceUploadVo.getResourceTestPath();
         List<UserInfo> memberList = resourceUploadVo.getMemberList();
 
         String type = resourceUploadVo.getResourceType();
@@ -124,8 +124,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         resource.setResourceName(resName);
         resource.setResourceDesc(resDesc);
         resource.setResourceInfo(resInfo);
-        resource.setResourceTrainPath(trainPath);
-        resource.setResourceTestPath(testPath);
+        resource.setResourcePath(path);
+//        resource.setResourceTestPath(testPath);
         resource.setPublicLevel(publicLevel);
         resource.setResourceType(type);
         resource.setResourceId(id);
@@ -152,6 +152,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         List<ResourceTypeVo> resourceTypeList = new ArrayList<>();
 
         for(String resourceId : resourceIdList){
+            System.out.println(resourceId);
             ResourceTypeVo resourceType = new ResourceTypeVo();
             //查看资源表
             QueryWrapper<Resource> wrapper = new QueryWrapper<>();
@@ -161,8 +162,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
             resourceType.setResourceId(resourceId);
             resourceType.setCompanyId(res.getCompanyId());
             resourceType.setKeywords(res.getKeywords());
-            resourceType.setResourceTrainPath(res.getResourceTrainPath());
-            resourceType.setResourceTestPath(res.getResourceTestPath());
+            resourceType.setResourcePath(res.getResourcePath());
             resourceType.setResourceDesc(res.getResourceDesc());
             resourceType.setResourceName(res.getResourceName());
             resourceType.setResourceType(res.getResourceType());
@@ -207,8 +207,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         String resInfo = resourceUpdateVo.getResourceInfo();
         String keywords = resourceUpdateVo.getKeywords();
 
-        String trainPath = resourceUpdateVo.getResourceTrainPath();
-        String testPath = resourceUpdateVo.getResourceTestPath();
+        String path = resourceUpdateVo.getResourcePath();
+//        String testPath = resourceUpdateVo.getResourceTestPath();
 
         String member = resourceUpdateVo.getMemberList();
         String type = resourceUpdateVo.getResourceType();
@@ -218,8 +218,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         updateRes.setResourceInfo(resInfo);
         updateRes.setResourceName(resName);
         updateRes.setResourceDesc(resDesc);
-        updateRes.setResourceTrainPath(trainPath);
-        updateRes.setResourceTestPath(testPath);
+        updateRes.setResourcePath(path);
+//        updateRes.setResourceTrainPath(trainPath);
+//        updateRes.setResourceTestPath(testPath);
 
         updateRes.setResourceType(type);
         int row = baseMapper.updateById(updateRes);

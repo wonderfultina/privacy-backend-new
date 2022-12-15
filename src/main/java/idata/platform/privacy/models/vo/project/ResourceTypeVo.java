@@ -35,11 +35,13 @@ public class ResourceTypeVo {
     @ApiModelProperty(value = "关键词")
     private String keywords;
 
-    @ApiModelProperty(value = "训练资源路径")
-    private String resourceTrainPath;
-
+//    @ApiModelProperty(value = "训练资源路径")
+//    private String resourceTrainPath;
+//
+//    @ApiModelProperty(value = "测试资源路径")
+//    private String resourceTestPath;
     @ApiModelProperty(value = "测试资源路径")
-    private String resourceTestPath;
+    private String resourcePath;
 
     @ApiModelProperty(value = "表名")
     private List<String> tableList;

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import idata.platform.privacy.common.Result;
 import idata.platform.privacy.common.exception.PrivacyException;
 import idata.platform.privacy.models.resource.Resource;
+import idata.platform.privacy.models.vo.project.ResourceTypeVo;
 import idata.platform.privacy.service.ResourceService;
 import idata.platform.privacy.models.vo.resource.ResourceQueryVo;
 import idata.platform.privacy.models.vo.resource.ResourceUpdateVo;
@@ -12,6 +13,8 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +53,6 @@ public class ResourceController {
         }
 
     }
-
 
     //分页查询
     @GetMapping("/{page}/{limit}")
@@ -93,6 +95,52 @@ public class ResourceController {
         }catch (Exception e){
             return Result.build(500, "删除资源失败");
         }
+    }
+
+
+    @GetMapping("/getResourceType")
+    public Result update(@RequestParam("resourceIdList") List<String> resourceIdList){
+        System.out.println(12345);
+        List<ResourceTypeVo> resTypeList = resourceService.getResourceTypeList(resourceIdList);
+        //一个公司多个资源
+        Map<String, List<ResourceTypeVo>> companyResTypeMap = new HashMap<>();
+        for(ResourceTypeVo res : resTypeList){
+            //如果已经有了该公司，直接放资源
+            if(companyResTypeMap.containsKey(res.getCompanyId())){
+                List<ResourceTypeVo> list = companyResTypeMap.get(res.getCompanyId());
+                list.add(res);
+            }else{
+                List<ResourceTypeVo> list = new ArrayList<>();
+                list.add(res);
+                companyResTypeMap.put(res.getCompanyId(), list);
+            }
+        }
+        System.out.println(companyResTypeMap);
+        return Result.ok(companyResTypeMap);
+//        try{
+//            System.out.println(12345);
+//            List<ResourceTypeVo> resTypeList = resourceService.getResourceTypeList(resourceIdList);
+//            //一个公司多个资源
+//            Map<String, List<ResourceTypeVo>> companyResTypeMap = new HashMap<>();
+//            for(ResourceTypeVo res : resTypeList){
+//                //如果已经有了该公司，直接放资源
+//                if(companyResTypeMap.containsKey(res.getCompanyId())){
+//                    List<ResourceTypeVo> list = companyResTypeMap.get(res.getCompanyId());
+//                    list.add(res);
+//                }else{
+//                    List<ResourceTypeVo> list = new ArrayList<>();
+//                    list.add(res);
+//                    companyResTypeMap.put(res.getCompanyId(), list);
+//                }
+//            }
+//            System.out.println(companyResTypeMap);
+//            return Result.ok(companyResTypeMap);
+//
+//        }catch (PrivacyException p){
+//            return Result.build(p.getCode(), p.getMessage());
+//        }catch (Exception e){
+//            return Result.build(500, "删除资源失败");
+//        }
     }
 
 }

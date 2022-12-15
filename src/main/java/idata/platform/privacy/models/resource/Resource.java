@@ -51,13 +51,13 @@ public class Resource extends BaseEntity {
     @TableField("publicLevel")
     private String publicLevel;
 
-    @ApiModelProperty(value = "训练资源路径")
-    @TableField("resource_train_path")
-    private String resourceTrainPath;
-
-    @ApiModelProperty(value = "测试资源路径")
-    @TableField("resource_test_path")
-    private String resourceTestPath;
+    @ApiModelProperty(value = "资源路径")
+    @TableField("resource_path")
+    private String resourcePath;
+//
+//    @ApiModelProperty(value = "测试资源路径")
+//    @TableField("resource_test_path")
+//    private String resourceTestPath;
 
     @ApiModelProperty(value = "资源类型")
     @TableField("resource_type")

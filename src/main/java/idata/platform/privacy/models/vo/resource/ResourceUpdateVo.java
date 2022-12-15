@@ -36,10 +36,10 @@ public class ResourceUpdateVo implements Serializable {
     @ApiModelProperty(value = "可见联邦成员列表")
     private String memberList;
 
-    @ApiModelProperty(value = "训练资源路径")
-    private String resourceTrainPath;
-
-    @ApiModelProperty(value = "测试资源路径")
-    private String resourceTestPath;
+    @ApiModelProperty(value = "资源路径")
+    private String resourcePath;
+//
+//    @ApiModelProperty(value = "测试资源路径")
+//    private String resourceTestPath;
 
 }

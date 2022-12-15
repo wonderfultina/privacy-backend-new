@@ -84,7 +84,7 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
         String companyId = getModelVo.getCompanyId();
         String flowRecordId = getModelVo.getFlowRecordId();
         String flowId = getModelVo.getFlowId();
-        String modelId = getModelVo.getModelId();
+
         if(!StringUtils.isEmpty(projectId)){
             wrapper.eq("project_id", projectId);
         }
@@ -97,9 +97,7 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
         if(!StringUtils.isEmpty(flowId)){
             wrapper.eq("flow_id", flowId);
         }
-        if(!StringUtils.isEmpty(modelId)){
-            wrapper.eq("model_id", modelId);
-        }
+
         if(!StringUtils.isEmpty(flowRecordId)){
             wrapper.eq("flow_record_id", flowRecordId);
         }

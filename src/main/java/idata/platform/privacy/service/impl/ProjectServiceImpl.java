@@ -278,10 +278,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                 companyResTypeMap.put(res.getCompanyId(), list);
             }
         }
-        System.out.println("companyResTypeMap");
-        System.out.println(companyResTypeMap);
         projectInfo.setCompanyResTypeMap(companyResTypeMap);
-        System.out.println(projectInfo);
 
         List<Resource> resList = resourceService.queryResourceByBatchId(ResIdList);
         Map<String, List<Resource>> companyResMap = new HashMap<>();
@@ -298,7 +295,6 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             }
         }
         projectInfo.setCompanyResMap(companyResMap);
-
 
         //根据项目id查找数据处理流程
         List<ProcessFlow> ProcessFlowList = processFlowService.queryProcessFlow(projectId);
