@@ -14,25 +14,25 @@ public class ResourceQueryVo implements Serializable {
     private String resourceName;
 
     @ApiModelProperty(value = "资源类型")
-    private String resourceType;
+    private String dataType;
 
     @ApiModelProperty(value = "公司id")
     private String companyId;
 
-    @ApiModelProperty(value = "使用场景")
-    private String scene;
+//    @ApiModelProperty(value = "使用场景")
+//    private String scene;
 
-    @ApiModelProperty(value = "公司")
-    private String companyName;
+//    @ApiModelProperty(value = "公司")
+//    private String companyName;
 
-//    @ApiModelProperty(value = "可见性")
-//    private String visible;
+    @ApiModelProperty(value = "时间")
+    private String createTime;
 
     @ApiModelProperty(value = "创建人")
     private String createUser;
 
-    @ApiModelProperty(value = "关键词")
-    private String keyWords;
+//    @ApiModelProperty(value = "关键词")
+//    private String keyWords;
 
 
 }

@@ -41,12 +41,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Override
     public Page<Resource> selectResourcePage(Page<Resource> pageParam, ResourceQueryVo resourceQueryVo) {
         String name = resourceQueryVo.getResourceName();
-        String type = resourceQueryVo.getResourceType();
-        String scene = resourceQueryVo.getScene();
+        String type = resourceQueryVo.getDataType();
+//        String scene = resourceQueryVo.getScene();
         String createUser = resourceQueryVo.getCreateUser();
-        String keywords = resourceQueryVo.getKeyWords();
+//        String keywords = resourceQueryVo.getKeyWords();
         String companyId = resourceQueryVo.getCompanyId();
-        String companyName = resourceQueryVo.getCompanyName();
+//        String companyName = resourceQueryVo.getCompanyName();
 
         //对条件值进行非空判断
         QueryWrapper<Resource> wrapper = new QueryWrapper<>();
@@ -58,12 +58,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         if(!isEmpty(type)) {
             wrapper.eq("resource_type",type);
         }
-        if(!isEmpty(keywords)) {
-            wrapper.like("keywords",keywords);
-        }
-        if(!isEmpty(scene)) {
-            wrapper.like("use_scene",scene);
-        }
+//        if(!isEmpty(keywords)) {
+//            wrapper.like("keywords",keywords);
+//        }
+//        if(!isEmpty(scene)) {
+//            wrapper.like("use_scene",scene);
+//        }
 
         if(!isEmpty(name)) {
             wrapper.like("resource_name",name);
@@ -73,9 +73,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
             wrapper.eq("create_user",createUser);
         }
 
-        if(!isEmpty(companyName)) {
-            wrapper.eq("company_name",companyName);
-        }
+//        if(!isEmpty(companyName)) {
+//            wrapper.eq("company_name",companyName);
+//        }
 
 
         //调用mapper的方法
